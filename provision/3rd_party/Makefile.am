@@ -16,6 +16,7 @@ prep:
 		echo "Extracting IPXE" ;\
 		mkdir -p _work/ ;\
 		tar -xJf $(IPXE_SOURCE) -C _work/ ;\
+		patch -p1 -d _work/$(IPXE_DIR) < ipxe-efi-guard-strncpy-with-gcc-warning-ignore-pragma.patch; \
 	fi
 
 bin-i386-pcbios/undionly.kpxe: prep
