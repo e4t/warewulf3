@@ -150,6 +150,7 @@ rootfs: busybox e2fsprogs libarchive parted
 	else \
 		$(MAKE) -C _work/$(PARTED_DIR)/ DESTDIR=`pwd`/rootfs install; \
 	fi
+	if [ -f /usr/sbin/haveged ]; then cp -a /usr/sbin/haveged rootfs/usr/sbin/haveged; fi
 	cp -L --parents /lib*/ld-linux* rootfs/
 	find rootfs -type f -perm -o+x -print | grep -v ld-linux | xargs ldd | grep "=>" | awk '{print $$3}' | grep "^/" | sort | uniq | while read i; do cp -L --parents $$i rootfs/ && chmod 755 rootfs/$$i; done
 	rm -f rootfs/linuxrc rootfs/lib64/*.la rootfs/lib/*.la rootfs/usr/lib64/*.la rootfs/usr/lib/*.la
